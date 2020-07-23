@@ -1,0 +1,154 @@
+// Copyright 2018 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package waterfall;
+
+option java_package = "com.google.waterfall";
+option java_outer_classname = "WaterfallProto";
+
+import "google/protobuf/empty.proto";
+
+message Message {
+  bytes payload = 1;
+}
+
+// Keep this as lean as possible. We only care about the payload during most
+// of the duration of the session. All other fields are only useful during
+// the beginning/end of the transfer
+message Transfer {
+  // Remote path to for push/pull. Remote path lives in the server fs.
+  // There is no need to send local path, since client has this info.
+  string path = 1;
+
+  // A stream of bytes. Encoded as a tarball.
+  bytes payload = 2;
+
+  // status fields.
+  bool success = 3;
+  bytes err = 4;
+}
+
+message Cmd {
+  // Path to the binary to execute.
+  // Path should be absolute. Otherwise behavior is not specified.
+  // use /system/bin/sh -c to run in a shell.
+  // Interactive shell is not supported.
+  string path = 1;
+
+  // Args to pass to the command
+  repeated string args = 2;
+
+  // Directory to execute the command
+  string dir = 3;
+
+  // Whether to pipe stdin to the command
+  bool pipeIn = 4;
+
+  // Environment to use
+  map<string, string> env = 5;
+
+}
+
+message CmdProgress {
+
+  // Command to execute. Only valid for the initial message of the stream.
+  Cmd cmd = 5;
+
+  // the exit code of the command.
+  // Only populated when the gRPC stream is done.
+  // I.e. the last message before the EOF.
+  uint32 exit_code = 1;
+
+  bytes stdout = 2;
+  bytes stderr = 3;
+  bytes stdin = 4;
+}
+
+message ForwardMessage {
+  enum Kind {
+    UNSET = 0;
+    TCP = 1;
+    UDP = 2;
+    UNIX = 3;
+  }
+
+  enum Op {
+    OPEN = 0;
+    FWD = 1;
+    CLOSE = 2;
+  }
+
+  // Kind of connection to start (tcp|udp|unix)
+  Kind kind = 1;
+  Op op = 2;
+
+  // Address to open and redirect payload to.
+  string addr = 3;
+  // Data to be pushed to connection established on addr.
+  bytes payload = 4;
+  // Whether or not to rebind the port.
+  bool rebind = 5;
+}
+
+message VersionMessage {
+  string version = 1;
+}
+
+service Waterfall {
+  // Echo exists solely for test purposes.
+  rpc Echo(stream Message) returns (stream Message);
+
+  // Push file/dir from host to device.
+  rpc Push(stream Transfer) returns (Transfer);
+
+  // Pull file/dir from device to host.
+  rpc Pull(Transfer) returns (stream Transfer);
+
+  // Exec executes cmd in the device and forward stdout and stderr to client
+  // Exec expects a single initial CmdProgress message if stdin is not
+  // being redirected. Otherwise Exec will read std from the stream.
+  rpc Exec(stream CmdProgress) returns (stream CmdProgress);
+
+  // Forward forwards the stream payload to the requested socket
+  rpc Forward(stream ForwardMessage) returns (stream ForwardMessage);
+
+  // Version gets the version of the server.
+  rpc Version(google.protobuf.Empty) returns (VersionMessage);
+}
+
+message ForwardSession {
+  string src = 1;
+  string dst = 2;
+}
+
+message PortForwardRequest {
+  bool rebind = 3;
+  ForwardSession session = 4;
+}
+
+message ForwardedSessions {
+  repeated ForwardSession sessions = 1;
+}
+
+// PortForwarder service runs a port forwarding session via waterfall.
+// It allows start and stop forwarding connections when the waterfall client
+// is unable to mantains any state (e.g. the waterfall adb binary).
+service PortForwarder {
+  rpc ForwardPort(PortForwardRequest) returns (google.protobuf.Empty);
+  rpc Stop(PortForwardRequest) returns (google.protobuf.Empty);
+  rpc StopAll(google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc List(google.protobuf.Empty) returns (ForwardedSessions);
+}

@@ -1,0 +1,468 @@
+# From CL: 199566821
+# Disable OpenGL ES 3.x on Mac until core profile renderer is in a polished state.
+pattern {
+  hwconfig {
+    hostinfo {
+      os_platform: "Mac"
+    }
+  }
+  featureaction {
+    feature: GLESDynamicVersion
+    enable: false
+    max_version {
+        major: 26
+        minor: 1
+        patch: 10
+    }
+  }
+  # Enable GLES3/native sync by default on Mac
+  # for 27.1.10+
+  featureaction {
+    feature: GLESDynamicVersion
+    enable: true
+    min_version {
+        major: 27
+        minor: 1
+        patch: 10
+    }
+  }
+  featureaction {
+    feature: GLAsyncSwap
+    enable: true
+    min_version {
+        major: 27
+        minor: 1
+        patch: 10
+    }
+  }
+  # Hypervisor.Framework on Mac
+  featureaction {
+    feature: HVF
+    enable: true
+    min_version {
+      major: 26
+      minor: 1
+      patch: 3
+    }
+  }
+}
+
+# List of fairly modern GPUs
+pattern {
+  hwconfig { hostgpuinfo { make: "10de" device_id: "0ffa" } } # Quadro K600
+  hwconfig { hostgpuinfo { make: "10de" device_id: "13ba" } } # Quadro K2200
+  hwconfig { hostgpuinfo { make: "10de" device_id: "13bb" } } # Quadro K620
+  hwconfig { hostgpuinfo { make: "10de" device_id: "13bc" } } # Quadro K1200
+  hwconfig { hostgpuinfo { make: "10de" device_id: "1430" } } # Quadro M2000
+  hwconfig { hostgpuinfo { make: "10de" device_id: "13c2" } } # GTX 970
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67df" } } # RX 480 / 470
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0d26" } } # Intel Iris Pro
+  hwconfig { hostgpuinfo { make: "Intel (0x8086)" model: "Intel Iris Pro" } } # Intel Iris Pro (Mac)
+
+  hwconfig { hostgpuinfo { make: "8086" device_id: "1906" } } # HD 510
+  hwconfig { hostgpuinfo { make: "8086" device_id: "1902" } } # HD 510
+  hwconfig { hostgpuinfo { make: "8086" device_id: "191e" } } # HD 515
+  hwconfig { hostgpuinfo { make: "8086" device_id: "1916" } } # HD 520
+  hwconfig { hostgpuinfo { make: "8086" device_id: "191b" } } # HD 530
+  hwconfig { hostgpuinfo { make: "8086" device_id: "1912" } } # HD 530
+  hwconfig { hostgpuinfo { make: "8086" device_id: "191d" } } # HD P530
+  hwconfig { hostgpuinfo { make: "8086" device_id: "1926" } } # Iris 540 / 550
+  hwconfig { hostgpuinfo { make: "8086" device_id: "1927" } } # Iris 540 / 550
+  hwconfig { hostgpuinfo { make: "8086" device_id: "193b" } } # Iris Pro 580
+  hwconfig { hostgpuinfo { make: "8086" device_id: "193d" } } # Iris Pro P580
+
+  # Kaby Lake GPUs
+  # GT1
+  hwconfig { hostgpuinfo { make: "8086" device_id: "5902" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "5906" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "590a" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "590b" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "590e" } }
+  # GT1.5
+  hwconfig { hostgpuinfo { make: "8086" device_id: "5913" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "5915" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "5917" } }
+  # GT2
+  hwconfig { hostgpuinfo { make: "8086" device_id: "5912" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "5916" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "591a" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "591b" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "591d" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "591e" } }
+  # GT2F
+  hwconfig { hostgpuinfo { make: "8086" device_id: "5921" } }
+  # GT3
+  hwconfig { hostgpuinfo { make: "8086" device_id: "5926" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "5927" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "592a" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "592b" } }
+  # GT4
+  hwconfig { hostgpuinfo { make: "8086" device_id: "5932" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "593a" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "593b" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "593d" } }
+
+  # Gemini Lake
+  hwconfig { hostgpuinfo { make: "8086" device_id: "3185" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "3184" } }
+
+  # Coffee Lake
+  hwconfig { hostgpuinfo { make: "8086" device_id: "3e91" } }
+  hwconfig { hostgpuinfo { make: "8086" device_id: "3e92" } }
+
+  # AMD Baffin
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67ef" } }
+
+  # AMD Bonaire (HD 7700, R7/R9 (M) 2xx/3xx)
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6646" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6647" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6649" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6658" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "665c" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "665d" } }
+
+  # AMD Cape Verde (HD 7xxx/8xxxx(M), R7/R9 2xx, FirePro)
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6828" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6829" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "682c" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6830" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6831" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6835" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6837" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "683d" } }
+
+  # Modern AMD GPUs
+  # Polaris 11
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67e0" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67e3" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67e8" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67eb" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67ef" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67ff" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67e1" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67e7" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67e9" } }
+  # Polaris 10
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67c0" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67c1" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67c2" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67c4" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67c7" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67d0" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67df" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67c8" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67c9" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67ca" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67cc" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "67cf" } }
+  # Polaris 12
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6980" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6981" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6985" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6986" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6987" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6995" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "699f" } }
+  # Vega 10
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6860" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6861" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6862" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6863" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6864" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6867" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "6868" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "686c" } }
+  hwconfig { hostgpuinfo { make: "1002" device_id: "687f" } }
+  # Raven
+  hwconfig { hostgpuinfo { make: "1002" device_id: "15dd" } }
+
+  # NVIDIA GTX 6xxM / 7xxM
+  hwconfig { hostgpuinfo { make: "10de" device_id: "0x1140" } }
+  hwconfig { hostgpuinfo { make: "10de" device_id: "0x11a0" } } # 680M
+  hwconfig { hostgpuinfo { make: "10de" device_id: "0x11a3" } } # 680MX
+  hwconfig { hostgpuinfo { make: "10de" device_id: "0x119f" } } # 780M
+  hwconfig { hostgpuinfo { make: "10de" device_id: "0x11e3" } } # 760M
+  hwconfig { hostgpuinfo { make: "10de" device_id: "0x119d" } } # 775M
+  hwconfig { hostgpuinfo { make: "10de" device_id: "0x11e0" } } # 770M
+  hwconfig { hostgpuinfo { make: "10de" device_id: "0x11e1" } } # 765M
+  hwconfig { hostgpuinfo { make: "10de" device_id: "0x11e2" } } # 765M
+  hwconfig { hostgpuinfo { make: "10de" device_id: "0x11e3" } } # 760M
+
+  # NVIDIA GTX 5xx (experimental)
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1201" } } # GTX 560
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1200" } } # GTX 560 Ti
+
+  # NVIDIA GTX 7xx
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1004" } } # GTX 780
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1184" } } # GTX 770
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1187" } } # GTX 760
+
+  # NVIDIA GM204 / GM204M (GTX 9xx(M), Quadro M4/5xxxx, Tesla M6x)
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13c0" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13c1" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13c2" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13c3" } }
+
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13d7" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13d8" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13d9" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13da" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13f0" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13f1" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13f2" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13f3" } }
+
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13f8" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13f9" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13fa" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13fb" } }
+
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1401" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1402" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1406" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1427" } }
+
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1617" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1618" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1619" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "161a" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1667" } }
+
+  # NVIDIA GP102/GP104/GP106/GP107 (TITAN X, Tesla P40, GTX 10xx, Quadro P4/5xxx)
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b00" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b01" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b02" } }
+
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b30" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b38" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b70" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b78" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b80" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b81" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b82" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b83" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b84" } }
+
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1b06" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1ba0" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1ba1" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1bb0" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1bb1" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1bb3" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1bb4" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1bb6" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1bb7" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1bb8" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1be0" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1be1" } }
+
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c00" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c01" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c02" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c03" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c20" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c30" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c35" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c60" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c61" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c62" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c70" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c80" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c81" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c82" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c8c" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c8d" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1c8e" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1ca7" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1ca8" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1caa" } }
+
+  # NVIDIA GP107GL
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1cb1" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1cb2" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1cb3" } }
+
+  # NVIDIA GP108
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1d01" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1d10" } }
+
+  # NVIDIA GP100-A, GP100-B
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "15f0" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "15f1" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "15f8" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "15f9" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "15fa" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "15fb" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "15fc" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "15fd" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "15fe" } }
+
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1725" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "172e" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "172f" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1731" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1738" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1739" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "173a" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "173b" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "173c" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "173d" } }
+
+  # NVIDIA GV100 (Titan V, Tesla V100, Quadro GV100)
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1d81" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1db1" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1db3" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1db4" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1db5" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1db6" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "1dba" } }
+
+  # NVIDIA GK104 Quadro
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11ba" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11bb" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11bc" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11bd" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11be" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11bf" } }
+
+  # NVIDIA GK104GL Quadro
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11af" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11b0" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11b1" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11b4" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11b6" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11b7" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11b7" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11b8" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11b9" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11ba" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11bb" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11bc" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11bd" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11be" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "11bf" } }
+
+  # NVIDIA GK104GLM Quadro
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "137a" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "137b" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "137d" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13b0" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13b1" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13b2" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13b3" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13b4" } }
+  hwconfig { hostgpuinfo { make:  "10de" device_id: "13b6" } }
+
+  featureaction {
+    feature: GLAsyncSwap
+    enable: true
+  }
+  featureaction {
+    feature: GLESDynamicVersion
+    enable: true
+    min_version {
+      major: 26
+      minor: 1
+    }
+  }
+}
+
+# Force ANGLE on any Intel HD 4xxx
+pattern {
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0402" } } # HD 4200
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0412" } } # HD 4xxx
+
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0416" } } # HD 4600
+  hwconfig { hostgpuinfo { make: "8086" device_id: "041a" } } # HD 4xxx
+  hwconfig { hostgpuinfo { make: "8086" device_id: "041b" } } # HD 4xxx
+  hwconfig { hostgpuinfo { make: "8086" device_id: "041e" } } # HD 4xxx
+
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0c12" } } # HD 4xxx
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0c16" } } # HD 4xxx
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0c1a" } } # HD 4xxx
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0c1b" } } # HD 4xxx
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0c1e" } } # HD 4xxx
+
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0d12" } } # HD 4xxx
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0d16" } } # HD 4xxx
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0d1a" } } # HD 4xxx
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0d1b" } } # HD 4xxx
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0d1e" } } # HD 4xxx
+
+  featureaction {
+    feature: ForceANGLE
+    enable: true
+    min_version {
+      major: 26
+      minor: 1
+    }
+    # Stop force ANGLE on 27.x.x until we figure out what is going on.
+    max_version {
+        major: 26
+        minor: 1
+        patch: 10
+    }
+  }
+
+  # GLES 3.x not well tested on ANGLE yet. Disable for now.
+  featureaction {
+    feature: GLESDynamicVersion
+    enable: false
+  }
+}
+
+# Just use Swiftshader on older Intel systems :(
+pattern {
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0166" } } # HD 4000
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0162" } } # HD 4000
+  hwconfig { hostgpuinfo { make: "8086" device_id: "016a" } } # HD 4000
+
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0046" } } # Generic "HD Graphics"
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0102" } } # HD 3000
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0116" } } # HD 3000
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0152" } } # HD 2500
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0156" } } # HD 2500
+  hwconfig { hostgpuinfo { make: "8086" device_id: "015a" } } # HD 2500
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0a16" } } # HD Graphics Controller
+  hwconfig { hostgpuinfo { make: "8086" device_id: "0a1e" } } # HD Graphics
+  hwconfig { hostgpuinfo { make: "8086" device_id: "a001" } } # Media Accelerator 3150
+  hwconfig { hostgpuinfo { make: "8086" device_id: "a002" } } # GMA 3150
+  hwconfig { hostgpuinfo { make: "8086" device_id: "a011" } } # GMA 3150
+  hwconfig { hostgpuinfo { make: "8086" device_id: "a012" } } # GMA 3150
+  featureaction {
+    feature: ForceSwiftshader
+    enable: true
+    min_version {
+      major: 26
+      minor: 1
+    }
+  }
+  # GLES 3.x not well tested on Swiftshader yet. Disable for now.
+  featureaction {
+    feature: GLESDynamicVersion
+    enable: false
+  }
+  # GLES 3.x for recent versions of Swiftshader work well. Enable by default if
+  # >= 27.3.x
+  featureaction {
+    feature: GLESDynamicVersion
+    enable: true
+    min_version {
+        major: 27
+        minor: 3
+    }
+  }
+}
+
+pattern {
+    hwconfig { hostinfo {
+      os_platform: "Mac"
+    } }
+    hwconfig { hostinfo {
+      os_platform: "Linux"
+    } }
+    featureaction {
+      feature: ForceANGLE
+      enable: false
+    }
+}
