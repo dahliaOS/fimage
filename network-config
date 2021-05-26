@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo ip tuntap add dev qemu mode tap user $USER
+sudo ip link set qemu up

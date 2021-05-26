@@ -1,7 +1,0 @@
-# This specifies the most stable system image build id, for a given
-# branch and target, against the emulator binary.
-#
-# Format:
-#   version-sysimage-<branch name>-<target>=<build id>
-
-version-sysimage-git_pi-dev-sdk_gphone_x86_64-userdebug=4833817
