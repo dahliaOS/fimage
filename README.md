@@ -18,6 +18,10 @@ To quickly run FImage, use the commands below inside of it's folder:
 ./network-config
 ./fimage-gui 4096
 ```
+
+See [Explore Fuchsia](https://fuchsia.dev/fuchsia-src/get-started/explore_fuchsia) for tips on what you can do next.
+When you're done, you can clean up via `dm shutdown`.
+
 ### Recommended Requirements
 * 8GiB of RAM or more
 * an Intel processor produced after 2010 (If you have a dedicated GPU)
