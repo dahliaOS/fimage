@@ -110,3 +110,6 @@ Command-line interface in gnome-terminal
 * Mouse input is laggy
 * Terminal application within ermine crashes (Fuchsia bug?); negated by pressing enter in the terminal FEMU was launched from.
 * Extreme jank on Ivy Bridge devices using host GPU
+
+### compiling Fuchsia for Fimage
+Follow the documented steps from fuchsia.dev and then set the full target with tools, `fx set workstation.qemu-x64 --with-base=//bundles:tools`
