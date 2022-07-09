@@ -113,3 +113,5 @@ Command-line interface in gnome-terminal
 
 ### compiling Fuchsia for Fimage
 Follow the documented steps from fuchsia.dev and then set the full target with tools, `fx set workstation.qemu-x64 --with-base=//bundles:tools`
+
+export FUCHSIA_SSH_CONFIG="/Users/nmcain/fuchsia/out/default/ssh-keys/ssh_config"
